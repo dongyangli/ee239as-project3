@@ -93,16 +93,18 @@ if __name__ == "__main__":
 	ys = []
 	for i in range(6):
 		""" for each hashtag, get features"""
-		d = load_features_by_hour(tagID = 0)
+		d = load_features_by_hour(tagID = i)
 		X, y = construct_matrix(d)
-		Xs = Xs + X
-		ys = ys + y
+		#Xs = Xs + X
+		#ys = ys + y
+		#model = sm.OLS(ys, Xs)
+		model = sm.OLS(y, X)
+		results = model.fit()
+		print(results.summary())
+		with open("linear_regression_result"+str(i)+".txt", 'wb') as fp:
+			print >>fp, results.summary()
 
-	model = sm.OLS(ys, Xs)
-	results = model.fit()
-	print(results.summary())
-	with open("linear_regression_result.txt", 'wb') as fp:
-		print >>fp, results.summary()
+	
 
 
 
